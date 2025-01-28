@@ -11,19 +11,21 @@ namespace BulkInsertAPI.Controllers
     [Route("bulk")]
     public class BulkTrialsController : ControllerBase
     {
-       
         private readonly ILogger<BulkTrialsController> _logger;
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IBulkInsertService _bulkInsertService;
+        private readonly IBulkInsertBinaryService _bulkInsertBinaryService;
 
         public BulkTrialsController(
             ILogger<BulkTrialsController> logger,
             ApplicationDbContext applicationDbContext,
-            IBulkInsertService bulkInsertService)
+            IBulkInsertService bulkInsertService,
+            IBulkInsertBinaryService bulkInsertBinaryService)
         {
             _logger = logger;
             _applicationDbContext = applicationDbContext;
             _bulkInsertService = bulkInsertService;
+            _bulkInsertBinaryService = bulkInsertBinaryService;
         }
 
         [HttpPost]
@@ -86,10 +88,10 @@ namespace BulkInsertAPI.Controllers
                 var messagesCount = await _applicationDbContext.Message.CountAsync();
                 Console.WriteLine("Initial: " + messagesCount.ToString());
                 var sw = Stopwatch.StartNew();
-                await _bulkInsertService.PerformBulkInsertBinaryAsync(messages);
+                await _bulkInsertBinaryService.PerformBulkInsertBinaryAsync(messages);
                 times.Add(sw.Elapsed.TotalMilliseconds);
                 messagesCount = await _applicationDbContext.Message.CountAsync();
-                Console.WriteLine($"Inserted: {no}. After: " + messagesCount.ToString() + $" and took  {times.Last()} ms");
+                Console.WriteLine($"Inserted: {no}. After: {messagesCount} and took  {times.Last()} ms");
             }
 
             Console.WriteLine($"Average: {times.Average()}");

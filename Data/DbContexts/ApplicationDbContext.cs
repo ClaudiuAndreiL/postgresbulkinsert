@@ -16,9 +16,10 @@ namespace BulkInsertAPI.Data.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Add configurations here if needed
-            modelBuilder.Entity<Message>()
-                .HasIndex(e => new { e.Originator, e.Recipient, e.CharacterSet, e.MessagePartCount, e.SentAt })
-                .IsUnique();
+            // no longer define the index since the model is the realistic one
+            //modelBuilder.Entity<Message>()
+            //    .HasIndex(e => new { e.Originator, e.Recipient, e.CharacterSet, e.MessagePartCount, e.SentAt })
+            //    .IsUnique();
 
             modelBuilder.Entity<MessageMetadata>()
                 .HasIndex(e => new { e.MessageId, e.Key, e.Value })

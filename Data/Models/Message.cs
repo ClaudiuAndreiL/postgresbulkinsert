@@ -1,20 +1,80 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BulkInsertAPI.Data.Models
+namespace BulkInsertAPI.Data.Models;
+
+public class Message
 {
-    [Table(nameof(Message))]
-    public class Message
-    {
-        [Key]
-        public Guid Id { get; set; } // Primary Key, generated as a Guid
+    [Key]
+    public Guid MessageId { get; set; }
+    public Guid RequestId { get; set; }
 
-        public string Originator { get; set; } = default!; // Identifier of the sender (Guid)
-        public string Recipient { get; set; } = default!; // Identifier of the receiver (Guid)
+    /// <summary>
+    /// will store RTLS found message id for Inbound messages
+    /// TODO: should we parent also when originator provided a registration
+    /// </summary>
+    public Guid? ReferenceMessageId { get; set; }
 
-        public string CharacterSet { get; set; } = default!; // Subject of the message
-        public string Body { get; set; } = default!; // The main content of the message
-        public int MessagePartCount { get; set; }
-        public DateTime SentAt { get; set; } // Timestamp when the message was sent    
-    }
+    [Column(TypeName = "citext")]
+    public string Reason { get; set; } = string.Empty;
+    [Column(TypeName = "citext")]
+    public string Status { get; set; } = string.Empty;
+
+    /// <summary>
+    /// specifies that the message should be considered in the counts send to billing
+    /// does not necessary that it will be billed, but it should be considered by billing
+    /// </summary>
+    public bool IsBillable { get; set; }
+
+    [StringLength(32)]
+    public string Msisdn { get; set; } = string.Empty;
+    [StringLength(32)]
+    public string NormalizedMsisdn { get; set; } = string.Empty;
+    [StringLength(2)]
+    public string DestinationCode { get; set; } = string.Empty;
+    [Column(TypeName = "citext")]
+    public string Originator { get; set; } = string.Empty;
+    [Column(TypeName = "citext")]
+    public string SenderType { get; set; } = string.Empty;
+    [Column(TypeName = "citext")]
+    public string? IndustrySector { get; set; } //TODO see if we want to keep this -> we might be well to move it to MessageMetadata. Todo ask Xiaoxi
+    [Column(TypeName = "citext")]
+    public string CharacterSet { get; set; } = string.Empty;
+
+    public int MessagePartCount { get; set; }
+    public int SentMessagePartCount { get; set; }
+    public int FailedMessagePartCount { get; set; }
+
+    [Column(TypeName = "citext")]
+    public string? Variables { get; set; }
+
+    /// <summary>
+    /// currently, for Inbound message this seems to be a "route"
+    /// </summary>
+    [Column(TypeName = "citext")]
+    public string? NetworkUsed { get; set; }
+
+    public bool IsPiiDeleted { get; set; }
+    public bool IsDeleted { get; set; }
+
+    [Column(TypeName = "text")]
+    public string? IsDeletedBy { get; set; }
+
+    public DateTime? SentAt { get; set; }
+    public DateTime CreateTimestamp { get; set; }
+    public DateTime LastUpdateTimestamp { get; set; }
+
+    //TODO: deal with it using some attribute or similar
+    //public long MessageOrderNo { get; set; }
+
+    [StringLength(16)]
+    public string Direction { get; set; } = default!; // will set Outbound as SQL default
+
+    public Guid? ConversationId { get; set; }
+
+    public bool IsLandline { get; set; }
+
+    public bool? IsRead { get; set; }
+
+    public Guid? ReadBy { get; set; }
 }
