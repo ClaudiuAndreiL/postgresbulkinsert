@@ -1,29 +1,35 @@
 ﻿using System.Diagnostics;
-using BulkInsertAPI.Data.Models;
+
+using Npgsql;
+
 using BulkInsertAPI.Services.Helpers.Builders;
 using BulkInsertAPI.Services.Helpers.Serializers;
-using Npgsql;
+
 
 namespace BulkInsertAPI.Services;
 
-public interface IBulkInsertBinaryService
+public interface IBulkInsertBinaryService<T> where T: class
 {
-    Task PerformBulkInsertBinaryAsync(List<Message> messages);
+    Task PerformBulkInsertBinaryAsync(List<T> messages);
 }
 
-//TODO: make this typed
-public class BulkInsertBinaryService : IBulkInsertBinaryService
+public class BulkInsertBinaryService<T> : IBulkInsertBinaryService<T>
+    where T : class
 {
     private readonly IConfiguration _configuration;
-    private readonly INpgsqlEntityBinarySerializer<Message> _entitySerializer;
+    private readonly INpgsqlEntityBinarySerializer<T> _entitySerializer;
+    private readonly IBulkInsertBinaryStatementBuilder<T> _bulkInsertBinaryStatementBuilder;
 
-    public BulkInsertBinaryService(IConfiguration configuration, INpgsqlEntityBinarySerializer<Message> entitySerializer)
+    public BulkInsertBinaryService(IConfiguration configuration, 
+        INpgsqlEntityBinarySerializer<T> entitySerializer, 
+        IBulkInsertBinaryStatementBuilder<T> bulkInsertBinaryStatementBuilder)
     {
         _configuration = configuration;
         _entitySerializer = entitySerializer;
+        _bulkInsertBinaryStatementBuilder = bulkInsertBinaryStatementBuilder;
     }
 
-    public async Task PerformBulkInsertBinaryAsync(List<Message> messages)
+    public async Task PerformBulkInsertBinaryAsync(List<T> messages)
     {
         var sw = Stopwatch.StartNew();
 
@@ -32,7 +38,7 @@ public class BulkInsertBinaryService : IBulkInsertBinaryService
         using var connection = new NpgsqlConnection(connectionString);
         await connection.OpenAsync();
 
-        var statements = BulkInsertBinaryStatementBuilder<Message>.GetStatements();
+        var statements = _bulkInsertBinaryStatementBuilder.GetStatements();
         await RunCommandAsync(connection, statements.CreateTempTableSqlStatement);
         await BulkInsertBinaryAsync(connection, statements.CopyBinarySqlStatement, messages);
 
@@ -46,7 +52,7 @@ public class BulkInsertBinaryService : IBulkInsertBinaryService
         await RunCommandAsync(connection, statements.DropTempTableSqlStatement);
     }
 
-    private async Task BulkInsertBinaryAsync(NpgsqlConnection connection, string copyBinarySqlStatement, List<Message> messages)
+    private async Task BulkInsertBinaryAsync(NpgsqlConnection connection, string copyBinarySqlStatement, List<T> messages)
     {
         using var writer = await connection.BeginBinaryImportAsync(copyBinarySqlStatement);
 

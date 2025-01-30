@@ -1,4 +1,5 @@
 using BulkInsertAPI.Data.DbContexts;
+using BulkInsertAPI.Data.Models;
 using BulkInsertAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,13 +15,13 @@ namespace BulkInsertAPI.Controllers
         private readonly ILogger<BulkTrialsController> _logger;
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IBulkInsertService _bulkInsertService;
-        private readonly IBulkInsertBinaryService _bulkInsertBinaryService;
+        private readonly IBulkInsertBinaryService<Message> _bulkInsertBinaryService;
 
         public BulkTrialsController(
             ILogger<BulkTrialsController> logger,
             ApplicationDbContext applicationDbContext,
             IBulkInsertService bulkInsertService,
-            IBulkInsertBinaryService bulkInsertBinaryService)
+            IBulkInsertBinaryService<Message> bulkInsertBinaryService)
         {
             _logger = logger;
             _applicationDbContext = applicationDbContext;

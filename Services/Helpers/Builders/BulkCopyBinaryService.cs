@@ -1,7 +1,7 @@
 ﻿//using BulkInsertAPI.Services.Helpers.Mappers;
 //using Npgsql;
 
-//TODO: remove
+// can be used as a generic writer
 //namespace BulkInsertAPI.Services.Helpers.Builders
 //{
 //    public class BulkCopyBinaryService

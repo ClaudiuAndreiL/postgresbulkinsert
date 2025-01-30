@@ -1,6 +1,7 @@
 using BulkInsertAPI.Data.DbContexts;
 using BulkInsertAPI.Data.Models;
 using BulkInsertAPI.Services;
+using BulkInsertAPI.Services.Helpers.Builders;
 using BulkInsertAPI.Services.Helpers.Serializers;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +20,9 @@ namespace BulkInsertAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IBulkInsertService, BulkInsertService>();
-            builder.Services.AddScoped<IBulkInsertBinaryService, BulkInsertBinaryService>();
+            builder.Services.AddScoped(typeof(IBulkInsertBinaryService<>), typeof(BulkInsertBinaryService<>));
+
+            builder.Services.AddScoped(typeof(IBulkInsertBinaryStatementBuilder<>), typeof(BulkInsertBinaryStatementBuilder<>));
 
             builder.Services.AddSingleton<INpgsqlEntityBinarySerializer<Message>, MessageNpgsqlBinarySerializer>();
 

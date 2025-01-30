@@ -11,7 +11,6 @@ public class Message
 
     /// <summary>
     /// will store RTLS found message id for Inbound messages
-    /// TODO: should we parent also when originator provided a registration
     /// </summary>
     public Guid? ReferenceMessageId { get; set; }
 
@@ -37,7 +36,7 @@ public class Message
     [Column(TypeName = "citext")]
     public string SenderType { get; set; } = string.Empty;
     [Column(TypeName = "citext")]
-    public string? IndustrySector { get; set; } //TODO see if we want to keep this -> we might be well to move it to MessageMetadata. Todo ask Xiaoxi
+    public string? IndustrySector { get; set; } 
     [Column(TypeName = "citext")]
     public string CharacterSet { get; set; } = string.Empty;
 
@@ -64,8 +63,7 @@ public class Message
     public DateTime CreateTimestamp { get; set; }
     public DateTime LastUpdateTimestamp { get; set; }
 
-    //TODO: deal with it using some attribute or similar
-    //public long MessageOrderNo { get; set; }
+    public long MessageOrderNo { get; set; }
 
     [StringLength(16)]
     public string Direction { get; set; } = default!; // will set Outbound as SQL default

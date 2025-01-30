@@ -15,6 +15,13 @@ namespace BulkInsertAPI.Data.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Message>()
+                .ToTable(nameof(Message));
+
+            modelBuilder.Entity<Message>()
+                .Property(e => e.MessageOrderNo)
+                .UseIdentityAlwaysColumn();
+
             // Add configurations here if needed
             // no longer define the index since the model is the realistic one
             //modelBuilder.Entity<Message>()

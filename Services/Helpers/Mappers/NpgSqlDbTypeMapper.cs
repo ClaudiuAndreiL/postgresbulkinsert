@@ -1,6 +1,6 @@
 ﻿//using NpgsqlTypes;
 
-//TODO: remove
+// can be used for generic type mapping
 //namespace BulkInsertAPI.Services.Helpers.Mappers
 //{
 //    public static class NpgSqlDbKTypeMapper
