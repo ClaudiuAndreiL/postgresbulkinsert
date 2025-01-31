@@ -3,7 +3,7 @@
 using Npgsql;
 
 using BulkInsertAPI.Services.Helpers.Builders;
-using BulkInsertAPI.Services.Helpers.Serializers;
+using Common;
 
 
 namespace BulkInsertAPI.Services;

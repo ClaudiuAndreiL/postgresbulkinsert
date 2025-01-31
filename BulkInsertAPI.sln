@@ -5,6 +5,10 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkInsertAPI", "postgresbulkinsert\BulkInsertAPI.csproj", "{0A3EFEB5-E1FF-4182-A863-1A7872E324D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneratedCode", "GeneratedCode\GeneratedCode.csproj", "{8DE1A6CC-158A-4757-8C70-FDF0230A9245}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common\Common.csproj", "{D0155411-34FA-45BA-B9FA-50474A2A0A72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{0A3EFEB5-E1FF-4182-A863-1A7872E324D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A3EFEB5-E1FF-4182-A863-1A7872E324D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A3EFEB5-E1FF-4182-A863-1A7872E324D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DE1A6CC-158A-4757-8C70-FDF0230A9245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DE1A6CC-158A-4757-8C70-FDF0230A9245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DE1A6CC-158A-4757-8C70-FDF0230A9245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DE1A6CC-158A-4757-8C70-FDF0230A9245}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0155411-34FA-45BA-B9FA-50474A2A0A72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0155411-34FA-45BA-B9FA-50474A2A0A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0155411-34FA-45BA-B9FA-50474A2A0A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0155411-34FA-45BA-B9FA-50474A2A0A72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

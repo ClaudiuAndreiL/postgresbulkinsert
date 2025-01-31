@@ -10,6 +10,8 @@ public interface IBulkInsertBinaryStatementBuilder<T> where T : class
     public BulkCopyBinaryStatements GetStatements();
 }
 
+//TODO: use LazyCache or similar to cache the results and avoid using statics in a scoped class
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S2696:Instance members should not write to \"static\" fields", Justification = "<Pending>")]
 public class BulkInsertBinaryStatementBuilder<T> : IBulkInsertBinaryStatementBuilder<T> where T: class
 {
     private readonly ApplicationDbContext _applicationDbContext;
@@ -17,14 +19,14 @@ public class BulkInsertBinaryStatementBuilder<T> : IBulkInsertBinaryStatementBui
     private static readonly object _lock = new();
     private static bool _isInitialized = false;
 
-    private string _tableName = default!;
-    private string[] _pkColumnNames = default!;
-    private List<string> _insertablePropertyNames = default!;
+    private static string _tableName = default!;
+    private static string[] _pkColumnNames = default!;
+    private static List<string> _insertablePropertyNames = default!;
 
-    private string _createTempTableSqlStatement = default!;
-    private string _copyBinarySqlStatement = default!;
-    private string _insertTempTableSqlStatement = default!;
-    private string _dropTempTableSqlStatement = default!;
+    private static string _createTempTableSqlStatement = default!;
+    private static string _copyBinarySqlStatement = default!;
+    private static string _insertTempTableSqlStatement = default!;
+    private static string _dropTempTableSqlStatement = default!;
 
     private const string TempPrefix = "temp";
 

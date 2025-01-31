@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Common;
 
 namespace BulkInsertAPI.Data.Models;
 
+[GenerateSerializer]
 public class Message
 {
     [Key]

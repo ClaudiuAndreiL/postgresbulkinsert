@@ -2,7 +2,7 @@ using BulkInsertAPI.Data.DbContexts;
 using BulkInsertAPI.Data.Models;
 using BulkInsertAPI.Services;
 using BulkInsertAPI.Services.Helpers.Builders;
-using BulkInsertAPI.Services.Helpers.Serializers;
+using Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace BulkInsertAPI
